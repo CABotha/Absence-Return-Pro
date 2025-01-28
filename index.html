@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return to Work Interview Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Required libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Company Logo">
+        <h1>Return to Work Interview Form</h1>
+    </header>
+
+    <form id="returnToWorkForm">
+        <!-- Welcome and Introduction -->
+        <div class="form-section">
+            <h3>Welcome and Introduction</h3>
+            <p class="intro-text">Welcome back to work. This interview is to ensure you're ready to return to work, discuss any support you might need, and address any concerns you may have.</p>
+        </div>
+
+        <!-- Basic Information -->
+        <div class="form-section">
+            <h3>Basic Information</h3>
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeId">Employee ID:</label>
+                <input type="text" id="employeeId" name="employeeId" required>
+            </div>
+            <div class="form-group">
+                <label for="interviewerName">Interviewer Name:</label>
+                <input type="text" id="interviewerName" name="interviewerName" required>
+            </div>
+            <div class="form-group">
+                <label for="interviewDate">Date of Interview:</label>
+                <input type="date" id="interviewDate" name="interviewDate" required>
+            </div>
+        </div>
+
+        <!-- Absence Details -->
+        <div class="form-section">
+            <h3>2. Absence Details</h3>
+            <div class="form-group">
+                <label for="absenceStartDate">Start Date of Absence:</label>
+                <input type="date" id="absenceStartDate" name="absenceStartDate" required>
+            </div>
+            <div class="form-group">
+                <label for="returnDate">Return to Work Date:</label>
+                <input type="date" id="returnDate" name="returnDate" required>
+            </div>
+            <div class="form-group">
+                <label for="absenceType">Type of Absence:</label>
+                <select id="absenceType" name="absenceType" required>
+                    <option value="">Select type of absence</option>
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Unauthorized Absence">Unauthorized Absence</option>
+                    <option value="Family Responsibility">Family Responsibility Leave</option>
+                    <option value="Parental Leave">Parental Leave</option>
+                    <option value="other">Other</option>
+                </select>
+                <input type="text" id="otherAbsenceType" name="otherAbsenceType" 
+                       placeholder="Please specify other absence type" class="hidden">
+            </div>
+            <div class="form-group">
+                <label for="absenceReason">Reason for Absence:</label>
+                <textarea id="absenceReason" name="absenceReason" required></textarea>
+            </div>
+        </div>
+
+        <!-- Health and Well-being -->
+        <div class="form-section">
+            <h3>3. Health and Well-being</h3>
+            <div class="form-group">
+                <label for="fullyRecovered">a) Are you fully recovered and fit to return to your full duties?</label>
+                <select id="fullyRecovered" name="fullyRecovered" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <textarea id="notFullyRecoveredDetails" name="notFullyRecoveredDetails" 
+                         placeholder="Please provide details if no or unsure" class="hidden"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ongoingHealth">b) Do you have any ongoing health issues or concerns?</label>
+                <select id="ongoingHealth" name="ongoingHealth" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <textarea id="healthDetails" name="healthDetails" 
+                         placeholder="Please provide details if yes or unsure" class="hidden"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="likelyRecur">c) Is this absence likely to recur?</label>
+                <select id="likelyRecur" name="likelyRecur" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <textarea id="recurDetails" name="recurDetails" 
+                         placeholder="Please explain if yes" class="hidden"></textarea>
+            </div>
+        </div>
+
+        <!-- Medical Treatment -->
+        <div class="form-section">
+            <h3>4. Medical Treatment/Advice</h3>
+            <div class="form-group">
+                <label for="medicalTreatment">a) Did you receive any medical treatment or advice during your absence?</label>
+                <select id="medicalTreatment" name="medicalTreatment" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="healthcareRecommendations">b) Are there any recommendations from your healthcare provider regarding your return to work?</label>
+                <select id="healthcareRecommendations" name="healthcareRecommendations" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <textarea id="recommendationDetails" name="recommendationDetails" 
+                         placeholder="Please provide details if yes" class="hidden"></textarea>
+            </div>
+        </div>
+
+        <!-- Support and Adjustments -->
+        <div class="form-section">
+            <h3>5. Support and Adjustments</h3>
+            <div class="form-group">
+                <label for="supportRequired">a) Do you require any support or workplace adjustments to assist your return to work?</label>
+                <select id="supportRequired" name="supportRequired" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+                <textarea id="supportDetails" name="supportDetails" 
+                         placeholder="Please specify if yes" class="hidden"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="assistanceProgram">b) Would you like information about our Employee Assistance Program?</label>
+                <select id="assistanceProgram" name="assistanceProgram" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Work-Related Factors -->
+        <div class="form-section">
+            <h3>6. Work-Related Factors</h3>
+            <div class="form-group">
+                <label for="workFactors">a) Were there any work-related factors that contributed to your absence?</label>
+                <select id="workFactors" name="workFactors" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <textarea id="workFactorsDetails" name="workFactorsDetails" 
+                         placeholder="Please explain if yes or unsure" class="hidden"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="returnConcerns">b) Do you have any concerns about returning to work?</label>
+                <select id="returnConcerns" name="returnConcerns" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+                <textarea id="concernDetails" name="concernDetails" 
+                         placeholder="Please explain if yes or unsure" class="hidden"></textarea>
+            </div>
+        </div>
+
+        <!-- Policy Review -->
+        <div class="form-section">
+            <h3>7. Policy Review</h3>
+            <div class="form-group">
+                <label for="procedureKnowledge">a) Are you familiar with our absence reporting procedure?</label>
+                <select id="procedureKnowledge" name="procedureKnowledge" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="policyClarification">b) Do you need any clarification on our absence policies?</label>
+                <select id="policyClarification" name="policyClarification" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Action Plan -->
+        <div class="form-section">
+            <h3>8. Action Plan</h3>
+            <p>Based on our discussion, the following actions have been agreed upon:</p>
+            <div class="form-group">
+                <label for="action1">1.</label>
+                <input type="text" id="action1" name="action1">
+            </div>
+            <div class="form-group">
+                <label for="action2">2.</label>
+                <input type="text" id="action2" name="action2">
+            </div>
+            <div class="form-group">
+                <label for="action3">3.</label>
+                <input type="text" id="action3" name="action3">
+            </div>
+        </div>
+
+        <!-- Documentation -->
+        <div class="form-section">
+            <h3>9. Documentation</h3>
+            <p>Please provide any relevant documentation (e.g., medical certificates) to support your absence.</p>
+            <div class="form-group">
+                <label for="documentsReceived">Documents received:</label>
+                <select id="documentsReceived" name="documentsReceived" required>
+                    <option value="">Select an option</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="documentDetails">If yes, specify:</label>
+                <input type="text" id="documentDetails" name="documentDetails">
+            </div>
+            <div class="form-group">
+                <label for="fileUpload">Upload Documents:</label>
+                <input type="file" id="fileUpload" name="fileUpload" 
+                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
+                <div id="uploadedFiles" class="uploaded-files"></div>
+            </div>
+        </div>
+
+        <!-- Additional Comments -->
+        <div class="form-section">
+            <h3>10. Additional Comments</h3>
+            <div class="form-group">
+                <label for="employeeComments">Employee Comments:</label>
+                <textarea id="employeeComments" name="employeeComments"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="interviewerComments">Interviewer Comments:</label>
+                <textarea id="interviewerComments" name="interviewerComments"></textarea>
+            </div>
+        </div>
+
+        <!-- Sign Off -->
+        <div class="form-section">
+            <h3>11. Signatures</h3>
+            <div class="form-group">
+                <label for="employeeSignature">Employee Signature:</label>
+                <input type="text" id="employeeSignature" name="employeeSignature" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeSignatureDate">Date:</label>
+                <input type="date" id="employeeSignatureDate" name="employeeSignatureDate" required>
+            </div>
+            <div class="form-group">
+                <label for="interviewerSignature">Interviewer Signature:</label>
+                <input type="text" id="interviewerSignature" name="interviewerSignature" required>
+            </div>
+            <div class="form-group">
+                <label for="interviewerSignatureDate">Date:</label>
+                <input type="date" id="interviewerSignatureDate" name="interviewerSignatureDate" required>
+            </div>
+            <div class="form-group">
+                <label for="nextReviewDate">Next review date (if applicable):</label>
+                <input type="date" id="nextReviewDate" name="nextReviewDate">
+            </div>
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="button-group">
+            <button type="submit" class="submit-btn">Submit Form</button>
+            <button type="button" id="exportExcel" class="export-btn excel" disabled>Export to Excel</button>
+            <button type="button" id="exportPdf" class="export-btn pdf" disabled>Export to PDF</button>
+        </div>
+    </form>
+
+    <footer>
+        <p>© 2025 Company Name. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
